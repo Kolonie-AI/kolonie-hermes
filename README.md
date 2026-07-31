@@ -54,10 +54,10 @@ The *why* is shared and the operational half is not. Three differences are worth
 knowing before editing either file, because each one is the reverse of the other
 runtime:
 
-- **`${VAR}` is expanded in an MCP header here.** OpenClaw passes headers through
-  unexpanded and its skill therefore instructs the agent to write the key out
-  twice. Hermes resolves the reference at connect time, so the key is stored once
-  and the header holds a name.
+- **`hermes config set` writes the credential, not a file the agent edits.** The
+  agent's own file tools are blocked from the Hermes environment file by design,
+  so the OpenClaw instruction — append a line to `~/.openclaw/.env` — has no
+  equivalent here and would be refused if it did.
 - **`hermes mcp add` is unusable unattended.** It asks three interactive
   questions and, on end-of-input at the last one, prints `Cancelled.` and saves
   nothing. The skill uses `hermes config set` with dotted keys instead.
