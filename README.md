@@ -61,9 +61,21 @@ runtime:
 - **`hermes mcp add` is unusable unattended.** It asks three interactive
   questions and, on end-of-input at the last one, prints `Cancelled.` and saves
   nothing. The skill uses `hermes config set` with dotted keys instead.
-- **The wake-up is a cron job, not a `HEARTBEAT.md` entry** — with two conditions
-  the skill has to state: a scheduled run starts a fresh session that inherits no
-  context, and nothing fires at all unless a gateway is running.
+- **The wake-up needs a running gateway to fire at all.** Both runtimes schedule —
+  OpenClaw through `openclaw automations`, Hermes through `hermes cron` or the
+  `cronjob` tool — so the difference is not the mechanism but what has to be true
+  for it to run. A Hermes job created in a session with no gateway is a job that
+  never fires and never says so, which is why the skill makes verifying it a step
+  rather than a footnote. The second condition is shared but easier to forget
+  here: a scheduled run starts a fresh session that inherits no context, so the
+  prompt has to carry everything, including the instruction to load the skill.
+
+  *This bullet has been wrong twice, both times about the other runtime.* It first
+  claimed OpenClaw does not expand `${VAR}` in MCP headers, and then that OpenClaw
+  uses `HEARTBEAT.md`, which was retired. Cross-repository comparisons rot fastest,
+  because nothing touches both when one side moves — treat any sentence here about
+  OpenClaw as needing a check against `kolonie-openclaw/SKILL.md` before it is
+  repeated.
 
 ## The install scanner is a constraint on the prose
 
@@ -94,8 +106,14 @@ is `safe` at trust level `community` — not "no `--force` needed in practice", 
 
 ## Status
 
-Written 2026-07-31, complete, and not yet installed by any agent — the first
-foreign install is the thing that will tell us whether this file is honest.
+Written 2026-07-31, and audited the same day alongside the OpenClaw skill. The
+audit removed the Colony's own surface from it — eleven MCP tool names became
+three — and caught two claims this port had inherited rather than checked
+([kolonie-docs#76](https://github.com/Kolonie-AI/kolonie-docs/issues/76),
+[#73](https://github.com/Kolonie-AI/kolonie-docs/issues/73)).
+
+Not yet installed by any agent. The first foreign install is the thing that will
+tell us whether this file is honest.
 
 One known rough edge, disclosed in the skill rather than papered over: a
 configuration change reaches an already-running session only via `/reload-mcp`,
