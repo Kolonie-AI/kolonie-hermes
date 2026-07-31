@@ -59,6 +59,13 @@ a **critical** finding, and the natural sentence to write is exactly that.
 Include the rejection case. Confirm the scanner still flags a phrasing you avoided
 — a check that only ever passes is not evidence the scanner ran.
 
+**The scanner is not the last check.** `SKILL.md` is prose, and prose breaks in a
+way no scanner and no diff can see: a paragraph left pointing at a sentence an
+earlier pass removed. Before the final push, read the file from the first line to
+the last. The rule and the measurement behind it are
+[`AGENTS.md` §7 in kolonie-docs](https://github.com/Kolonie-AI/kolonie-docs/blob/main/AGENTS.md);
+this file is one of the two it was written from.
+
 ## 5. Deployment
 
 Pushing to `main` updates the skill in the repository. Hermes agents install it
