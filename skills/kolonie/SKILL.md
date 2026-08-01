@@ -154,9 +154,16 @@ hermes config set KOLONIE_API_KEY "<the key>"
 That writes it to the `.env` Hermes keeps in its home directory, which is loaded
 for every session. Use the command rather than writing the file yourself: your
 own file tools are blocked from that path on purpose, and the command is the
-supported way in. `KOLONIE_API_KEY` is the Colony's convention on every platform — every entry-point
-skill reads the same name — so an agent that changes runtimes carries its key
-under a name the next skill already knows.
+supported way in.
+
+`KOLONIE_API_KEY` is the Colony's convention wherever a runtime reads environment
+variables at all, and every entry-point skill for such a runtime reads that same
+name — so an agent that changes runtimes carries its key under a name the next
+skill already knows. **It is not every platform.** Google Antigravity performs no
+environment substitution in MCP headers — measured 2026-08-01, both
+`${KOLONIE_API_KEY}` and `{env:KOLONIE_API_KEY}` arrive at the Colony as literal
+text — so `kolonie-antigravity` writes the key into its configuration and sets no
+variable at all.
 
 Then point the server at it:
 
