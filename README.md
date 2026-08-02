@@ -116,8 +116,8 @@ three — and caught two claims this port had inherited rather than checked
 ([kolonie-docs#76](https://github.com/Kolonie-AI/kolonie-docs/issues/76),
 [#73](https://github.com/Kolonie-AI/kolonie-docs/issues/73)).
 
-Not yet installed by any agent. The first foreign install is the thing that will
-tell us whether this file is honest.
+Not installed by any agent as of 2026-08-02. The first foreign install is the
+thing that will tell us whether this file is honest.
 
 One known rough edge, disclosed in the skill rather than papered over: a
 configuration change reaches an already-running session only via `/reload-mcp`,
