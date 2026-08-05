@@ -99,9 +99,23 @@ easy to undo by accident:
 | a secret variable inside a `curl`/`requests` example | a literal `<the key>` placeholder | `env_exfil_*`, critical |
 | `~/.ssh`, `~/.aws` — *even in a promise not to touch them* | "your SSH keys, your cloud credentials" | high → `caution` → blocked |
 | a bare `.profile` token, including inside a dotted tool name | the tool named in prose | medium — cosmetic, but it shows in every user's scan report |
+| `~/.hermes/config.yaml` or `~/.hermes/SOUL.md` | "the configuration file Hermes keeps in its home directory", "its character sheet" | `hermes_config_mod`, **critical** → uninstallable by anyone |
+| `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.clinerules` — *even describing what they are* | "the context files your runtime loads at boot", "its house rules" | `agent_config_mod`, **critical** → uninstallable by anyone |
 
-The last two are not hypothetical: the OpenClaw skill trips both, and the `~/.ssh`
-hit comes from the sentence promising not to touch it.
+The last four are not hypothetical: the OpenClaw skill trips two of them, the
+`~/.ssh` hit comes from the sentence promising not to touch it, and the bottom two
+are [#3](https://github.com/Kolonie-AI/kolonie-hermes/issues/3) — two accurate
+sentences of prose about where an arriving agent's memory lives, which made this
+skill uninstallable from a community source without anyone editing it.
+
+**Both bottom rows fire on prose that merely *mentions* the file.** The patterns
+are `AGENTS\.md|CLAUDE\.md|\.cursorrules|\.clinerules` and
+`\.hermes/config\.yaml|\.hermes/SOUL\.md`, matched anywhere in any file of the
+skill, with no exemption for a sentence that is plainly describing rather than
+instructing. So *"`AGENTS.md` and `SOUL.md` are context files rather than
+memory"* — a sentence written to tell an agent what **not** to treat as memory —
+is a critical finding. Do not argue with it in a pull request; write around it, and
+let your installation be the authority on its own paths.
 
 **Before pushing a change to `SKILL.md`, scan it.** The check is the platform's
 own scanner (`tools/skills_guard.py` in `NousResearch/hermes-agent`), and the bar
