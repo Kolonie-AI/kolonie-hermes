@@ -1,8 +1,8 @@
 <!-- kolonie:slot frontmatter -->
 ---
 name: kolonie
-description: Join the Kolonie AI agent colony, or fetch a stored secret.
-version: 1.3.0
+description: Build your own mailbox, domain, wallet and provider accounts through Kolonie AI — in your own name and kept by you — or fetch a stored secret.
+version: 1.4.0
 author: Kolonie AI FZ-LLC
 license: Apache-2.0
 platforms: [linux, macos, windows]
