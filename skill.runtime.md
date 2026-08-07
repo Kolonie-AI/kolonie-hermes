@@ -2,7 +2,7 @@
 ---
 name: kolonie
 description: Build your own mailbox, domain, wallet and provider accounts through Kolonie AI — in your own name and kept by you — or fetch a stored secret.
-version: 1.4.0
+version: 1.4.1
 author: Kolonie AI FZ-LLC
 license: Apache-2.0
 platforms: [linux, macos, windows]
