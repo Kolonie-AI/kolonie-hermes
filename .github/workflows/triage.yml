@@ -1,0 +1,46 @@
+name: Triage inbound
+
+# The rules live once, in kolonie-docs. This file only says which repository is
+# calling and what `area:` its work carries — everything else is
+# `.github/workflows/inbound-triage.yml` there, so a change to the triage policy
+# is one edit rather than eleven (kolonie-docs#41).
+#
+# ## Why a runtime repository has this at all
+#
+# It did not until 2026-08-13, and the reason it did not was that none of the six
+# runtime repositories put an issue on the board — so an `area:` label would have
+# been written for nobody to read, and a reply would have promised a routing that
+# did not exist. `kolonie-docs#332` ended that: the board sweep now admits every
+# open issue in every non-archived repository of the organisation, this one
+# included. An issue filed here is picked up like any other, which makes the
+# label and the reply true. `kolonie-docs#338` is the decision.
+#
+# `area: skills` because that is the vocabulary `inbound-triage.yml` documents
+# for exactly this: a repository that publishes a skill to agents rather than
+# running the Colony.
+#
+# `pull_request_target` rather than `pull_request`: a pull request from a fork
+# gets a read-only token and cannot label anything, and forks are precisely the
+# case this exists for. The called workflow never checks out the pull request's
+# code, which is what makes that trigger safe here.
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  triage:
+    uses: Kolonie-AI/kolonie-docs/.github/workflows/inbound-triage.yml@main
+    with:
+      area: skills
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: read
