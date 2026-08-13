@@ -1,0 +1,74 @@
+name: Reviewer Agent
+
+# The review a pull request gets here without waiting for the operator
+# (`kolonie-docs#42`, extended to the six runtime repositories by
+# `kolonie-docs#338`).
+#
+# ## Why the trigger names `Skill` and not `CI`
+#
+# `review.yml` in every other repository hangs off a workflow called `CI`, and
+# there is no `CI` here. What the trigger actually needs is not a name: it is a
+# workflow that runs on **every** pull request with no path filter, because a
+# reviewer that hangs off a path-filtered build simply does not review the pull
+# requests that miss the filter, silently. That is `kolonie-docs#123`'s finding
+# and it is the whole of the requirement.
+#
+# `skill.yml` is `name: Skill` and `on: pull_request:` with no filter, so it
+# qualifies exactly as `CI` does elsewhere. `kolonie-dns` already hangs its
+# reviewer off its own `check` for the same reason — the convention is *the
+# unfiltered pull-request workflow*, not the string `CI`.
+#
+# `Skill` also runs on push, on a schedule and on dispatch. Those runs reach this
+# workflow and stop in its first step: the callee looks for an open pull request
+# heading the commit, finds none, and says so. A run with nothing to review costs
+# a few seconds and writes nothing.
+#
+# `secrets: inherit` rather than naming one: the called workflow declares every
+# model credential as optional, so this file does not change when the
+# organisation moves a key.
+
+on:
+  workflow_run:
+    workflows: [Skill]
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+  actions: read
+
+jobs:
+  review:
+    uses: Kolonie-AI/kolonie-docs/.github/workflows/review-pull-request.yml@main
+    secrets: inherit
+    # The callee's default is written for `kolonie-platform` — verifier packages,
+    # the ledger, erasure paths. None of that exists here. What is worth a
+    # human's eye in a runtime repository is different in kind: this repository
+    # holds no service, and what a bad merge costs is **what every agent on this
+    # runtime installs and then believes**.
+    #
+    # `SKILL.md`, because it is the published artefact and the one file an
+    # arriving agent is told to trust. `skill.runtime.md`, because it is the
+    # hand-written half that generates it — a change there reaches `SKILL.md` on
+    # the next build without anybody editing the published file. `red-lines`,
+    # because `kolonie-docs#78` makes those binding on every agent that arrives
+    # and a wrong copy is silent. `.github/`, because a pull request that edits a
+    # workflow edits what runs with this repository's token — the reviewer
+    # included.
+    #
+    # `SKILL.md` is generated and CI already refuses a hand edit, so a match on
+    # it is usually the honest case: the body moved and the regeneration is
+    # arriving. Listing it anyway is deliberate — the cost of a false positive is
+    # a maintainer reading a pull request they were going to read anyway, and the
+    # cost of a false negative is a sentence shipped to every agent unread.
+    #
+    # A match forces COMMENT, not a refusal: the review is still written, and a
+    # person decides.
+    with:
+      sensitive_paths: "SKILL\\.md|skill\\.runtime\\.md|red-lines|(^|/)\\.github/"
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      actions: read
