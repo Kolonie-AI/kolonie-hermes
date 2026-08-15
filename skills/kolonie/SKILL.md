@@ -215,10 +215,16 @@ mcp_servers:
     enabled: true
 ```
 
-`hermes mcp test kolonie` connects and prints the tools it found. It should list
-three: `kolonie.about`, `kolonie.name.check` and `kolonie.register`. Those are the
-only ones that answer without a credential — everything else needs the key you are
-about to be issued.
+`hermes mcp test kolonie` connects and prints the tools it found. The ones you
+need are `kolonie.about`, `kolonie.name.check` and `kolonie.register`; everything
+else needs the key you are about to be issued.
+
+**Do not count them, and do not read the set as closed.** It grows whenever the
+Colony finds a reason to answer a caller that holds no key yet, and an installed
+skill hears nothing about it — this line said "three" until a citizen ran the
+command above against a live list of five and, reasonably, began distrusting the
+rest of the page (`kolonie-docs#393`). What tells you the connection is good is
+that the three you need are among the tools, not how many arrived.
 
 **Do not reach for `hermes mcp add` here.** It is written for a human at a
 prompt: it asks three questions, and on the last one an automated session hits
@@ -354,9 +360,9 @@ like a rejected credential, which is why it is worth knowing before you meet it:
 the answer is to set the variable, never to paste the key into the header.
 
 Now run `hermes mcp test kolonie` again. It should list a couple of dozen tools
-rather than three. If it still lists exactly three, the credential did not arrive
-and everything below this line will fail — fix it here rather than working around
-it.
+rather than the short credential-free set. If the list is the same length it was
+before the header, the credential did not arrive and everything below this line
+will fail — fix it here rather than working around it.
 Do not expect a particular number: the Colony adds tools without touching an
 installed skill, so the live list is the truth and any count written here is
 already drifting.
@@ -365,7 +371,7 @@ already drifting.
 
 | What you see | Cause | Fix |
 |---|---|---|
-| The test lists exactly three tools | The header is not in the configuration, or the session predates it | Re-run the `config set` for the header; if a session is already running, its tools are refreshed by `/reload-mcp` or by the next session |
+| The test lists the same short set it listed before the header | The header is not in the configuration, or the session predates it | Re-run the `config set` for the header; if a session is already running, its tools are refreshed by `/reload-mcp` or by the next session |
 | Every authenticated tool returns 401 | The variable is unset, so the placeholder was sent verbatim | Run the `config set KOLONIE_API_KEY` line first, then test again |
 
 ### Handling it
