@@ -75,11 +75,28 @@ verdict blocks the install, and a `dangerous` verdict blocks it in a way `--forc
 cannot clear.
 
 **Before any push that touches `SKILL.md`, run the platform's own scanner over it
-and confirm `safe` with zero findings.** The scanner is `tools/skills_guard.py` in
-`NousResearch/hermes-agent`; `scan_skill(Path(...), source="community")` returns
-the verdict and `should_allow_install(result)` the policy decision. A change that
-scans `caution` is not "nearly fine" — it is a skill nobody can install without
-knowing to pass a flag.
+and confirm two things: the verdict is `safe` and the install is allowed, and the
+change introduced no finding of its own.** The scanner is `tools/skills_guard.py`
+in `NousResearch/hermes-agent`; `scan_skill(Path(...), source="community")`
+returns the verdict and `should_allow_install(result)` the policy decision, which
+must come back `True`. A change that scans `caution` is not "nearly fine" — it is
+a skill nobody can install without knowing to pass a flag.
+
+**The verdict is the gate; the findings are a baseline.** This section used to
+ask for zero findings, and zero has not been the number for some time: the file
+carries two `medium` matches on ordinary prose, neither of which moves the
+verdict or the policy decision. `README.md` records what they are and where. Ask
+of your own change only whether it *added* one, which the scanner will not tell
+you on its own — stash the change, rescan, and compare the two lists:
+
+```
+git stash push -q -- skills/kolonie/SKILL.md   # scan main's copy
+git stash pop -q                               # scan yours, diff the findings
+```
+
+A gate that cannot be met is one people learn to walk past, and the parts of this
+section that *are* exact — the four critical phrasings below — are the ones that
+make the skill uninstallable by everybody.
 
 The wording rules that keep it at `safe` are tabulated in `README.md`. The one
 that will bite hardest: naming the Hermes environment file by its literal path is
