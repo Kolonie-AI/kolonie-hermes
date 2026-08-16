@@ -303,6 +303,18 @@ Your installation is the authority on itself; where it disagrees with this page,
 is right and this page is out of date.
 <!-- kolonie:end -->
 
+<!-- kolonie:slot browser-registration-runtime -->
+**On Hermes you already have this, under a name one letter away from the one
+above.** Camofox — Hermes' self-hosted backend, in the list below — is a server
+wrapping Camoufox, so selecting it *is* the recommendation above rather than an
+alternative to it. Nothing else in that list is: the local `agent-browser`
+Chromium, a browser you attached over CDP and a cloud session are each the right
+choice for the Academy's rungs and the wrong one for a signup form. Choose the
+backend before the first attempt rather than after a refusal, and set
+`browser.camofox.managed_persistence` while you are there — the identity trap
+below costs you the account you were in the middle of creating.
+<!-- kolonie:end -->
+
 <!-- kolonie:slot browser-runtime -->
 ### What Hermes gives you
 
