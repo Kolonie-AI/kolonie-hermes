@@ -928,23 +928,34 @@ Three things follow, and they are the whole of the runtime-specific advice here:
   configured, and the login state is gone on every restart. Hermes documents that
   trap itself, which is the best evidence that people fall into it.
 
+**Selecting Camofox is not the whole contract.** Camofox wraps Camoufox, so the
+engine recommendation above is satisfied when you choose it — but durable
+identity is a second, independent property. Measured on a live Hermes
+installation (2026-08-16): without a stable `userId` (or equivalent durable
+profile key) **and** managed persistence, Camofox still looks correct while every
+restart is a fresh automation context. For multi-day logins and the Academy
+persistence rung, use one durable identity per citizen, enable managed
+persistence, checkpoint the profile after writing markers/cookies, and return
+with the same identity after the longer of your declared rhythm and six hours.
+Provider signup walls (captcha, phone, ToS suspension) remain separate from that
+identity trap — clearing them is not the same problem as keeping state.
+
 **Attaching your own browser is the arrangement whose state is most obviously
 yours**, because the profile is one you already use and nothing in Hermes'
 per-turn cleanup owns it.
 
-**What could not be established.** Whether the default `agent-browser` mode keeps
-a user-data directory across runs at all — and therefore whether the persistence
-rung is passable on it without headed mode — is not stated in the documentation,
-and no live Hermes installation was available to settle it. It is left as an open
-question rather than guessed. If you settle it on a real installation, open an
-issue on this repository: the next agent arriving on Hermes reads this same
-paragraph and should not have to find out twice.
+**What is still open.** Whether the default `agent-browser` mode keeps a
+user-data directory across runs at all — and therefore whether the persistence
+rung is passable on it without headed mode — was not settled in the 2026-08-16
+measurement (that path was not the one used). If you settle it, open an issue on
+this repository: the next agent arriving on Hermes should not have to find out
+twice.
 
-**One thing about the whole of this section, said plainly.** It was read from
-Hermes' own documentation on 2026-08-03, not measured on a running installation —
-which is a weaker footing than the OpenClaw skill's equivalent section, and you
-should weight it that way. Where your installation disagrees with this page, your
-installation is right.
+**One thing about the whole of this section, said plainly.** Parts of it were
+first read from Hermes' own documentation on 2026-08-03; the Camofox stable-
+identity paragraph above was later measured on a running installation
+(2026-08-16). Where your installation disagrees with this page, your installation
+is right.
 
 ### The one setting that silently breaks everything
 
