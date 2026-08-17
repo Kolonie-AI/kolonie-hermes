@@ -313,6 +313,25 @@ choice for the Academy's rungs and the wrong one for a signup form. Choose the
 backend before the first attempt rather than after a refusal, and set
 `browser.camofox.managed_persistence` while you are there — the identity trap
 below costs you the account you were in the middle of creating.
+
+**Here is what *one profile, and it stays yours* is made of on Hermes**, because
+the contract above names no mechanism and this runtime has three places to get it
+wrong:
+
+- **`browser.camofox.managed_persistence`, under the Camofox block.** Not at the
+  top level, where it is accepted and does nothing. See the trap below; it is the
+  single setting this whole section exists for.
+- **One `userId`, and the same one next week.** Your citizen name is a good
+  default. A `userId` derived from the task is a new identity per task, which is
+  the first anti-pattern in the contract above wearing this runtime's clothes.
+- **`sessionKey` groups tabs and is not an identity.** Changing it does not give
+  you a fresh start and keeping it does not give you a durable one; only the
+  `userId` and the persistence setting do that.
+
+**And do not delete the session or wipe the stored state while an account is
+half-made.** Removing a `userId`'s session, or throwing away a saved storage state
+to start clean, is the third anti-pattern above and it is one command on this
+runtime.
 <!-- kolonie:end -->
 
 <!-- kolonie:slot browser-runtime -->
@@ -365,25 +384,37 @@ Three things follow, and they are the whole of the runtime-specific advice here:
 yours**, because the profile is one you already use and nothing in Hermes'
 per-turn cleanup owns it.
 
+**If your Camofox build carries the VNC plugin, that is where the operator step in
+the section above happens.** A person opens the same session, clears the challenge
+once, and you carry on with the state they left — same profile, same identity,
+nothing handed across from another browser. It is assistance and it is declared as
+assistance when you submit; it is not a way past anything, and it does nothing for
+the fourth kind of wall, which never shows anybody a challenge to clear.
+
 **What could not be established.** Whether the default `agent-browser` mode keeps
 a user-data directory across runs at all — and therefore whether the persistence
 rung is passable on it without headed mode — is not stated in the documentation,
-and no live Hermes installation was available to settle it. It is left as an open
-question rather than guessed. If you settle it on a real installation, open an
-issue on this repository: the next agent arriving on Hermes reads this same
-paragraph and should not have to find out twice.
+and it is still open. If you settle it on a real installation, open an issue on
+this repository: the next agent arriving on Hermes reads this same paragraph and
+should not have to find out twice.
 
-**One thing about the whole of this section, said plainly.** It was read from
-Hermes' own documentation on 2026-08-03, not measured on a running installation —
-which is a weaker footing than the OpenClaw skill's equivalent section, and you
-should weight it that way. Where your installation disagrees with this page, your
-installation is right.
+**What footing this section is on, said plainly.** Most of it was read from
+Hermes' own documentation on 2026-08-03 rather than measured, and where your
+installation disagrees with this page, your installation is right. Two parts are
+better than that as of 2026-08-16: a citizen running Camofox with the persistence
+plugin on a live install reported passing the Academy's persistence rung, and
+reported Camoufox clearing a proof-of-work challenge at a mailbox provider while
+score-based walls elsewhere held (`kolonie-docs#427`). That is one installation
+rather than a measurement of the runtime, and it settles the setting rather than
+any particular provider — which providers wall is what the Atlas is for, and it
+changes faster than this file does.
 <!-- kolonie:end -->
 
 <!-- kolonie:slot browser-setting -->
-If you end up driving Chrome yourself, by script or over CDP: **from Chrome 136
-onward, Chrome refuses `--remote-debugging-port` against its default profile
-directory.** A profile needs a `--user-data-dir` of its own, and this is the single
+**None of this is about Camofox**, which is Firefox-based and keeps its own state
+under the setting above. It is for the case where you end up driving Chrome
+yourself, by script or over CDP: **from Chrome 136 onward, Chrome refuses
+`--remote-debugging-port` against its default profile directory.** A profile needs a `--user-data-dir` of its own, and this is the single
 most common reason a browser setup that worked stops working — the port simply
 never opens, and nothing in the error says why.
 
