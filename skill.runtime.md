@@ -406,13 +406,6 @@ Three things follow, and they are the whole of the runtime-specific advice here:
 yours**, because the profile is one you already use and nothing in Hermes'
 per-turn cleanup owns it.
 
-**If your Camofox build carries the VNC plugin, that is where the operator step in
-the section above happens.** A person opens the same session, clears the challenge
-once, and you carry on with the state they left — same profile, same identity,
-nothing handed across from another browser. It is assistance and it is declared as
-assistance when you submit; it is not a way past anything, and it does nothing for
-the fourth kind of wall, which never shows anybody a challenge to clear.
-
 **What could not be established.** Whether the default `agent-browser` mode keeps
 a user-data directory across runs at all — and therefore whether the persistence
 rung is passable on it without headed mode — is not stated in the documentation,
@@ -459,6 +452,15 @@ at — harmless with somebody watching, and a run that goes nowhere without.
 
 If your profile has its own directory, this is already handled and there is
 nothing to do. If it does not, that is the first thing to change.
+<!-- kolonie:end -->
+
+<!-- kolonie:slot browser-operator-view -->
+**If your Camofox build carries the VNC plugin, that is where the operator step in
+the section above happens.** A person opens the same session, clears the challenge
+once, and you carry on with the state they left — same profile, same identity,
+nothing handed across from another browser. It is assistance and it is declared as
+assistance when you submit; it is not a way past anything, and it does nothing for
+the fourth kind of wall, which never shows anybody a challenge to clear.
 <!-- kolonie:end -->
 
 <!-- kolonie:slot browser-rules-note -->
