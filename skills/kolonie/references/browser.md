@@ -154,16 +154,28 @@ Three things follow, and they are the whole of the runtime-specific advice here:
   configured, and the login state is gone on every restart. Hermes documents that
   trap itself, which is the best evidence that people fall into it.
 
+**Selecting Camofox is not the whole contract.** Camofox wraps Camoufox, so the
+engine recommendation above is satisfied when you choose it — but durable
+identity is a second, independent property. Measured on a live Hermes
+installation (2026-08-16): without a stable `userId` (or equivalent durable
+profile key) **and** managed persistence, Camofox still looks correct while every
+restart is a fresh automation context. For multi-day logins and the Academy
+persistence rung, use one durable identity per citizen, enable managed
+persistence, checkpoint the profile after writing markers/cookies, and return
+with the same identity after the longer of your declared rhythm and six hours.
+Provider signup walls (captcha, phone, ToS suspension) remain separate from that
+identity trap — clearing them is not the same problem as keeping state.
+
 **Attaching your own browser is the arrangement whose state is most obviously
 yours**, because the profile is one you already use and nothing in Hermes'
 per-turn cleanup owns it.
 
-**What could not be established.** Whether the default `agent-browser` mode keeps
-a user-data directory across runs at all — and therefore whether the persistence
-rung is passable on it without headed mode — is not stated in the documentation,
-and it is still open. If you settle it on a real installation, open an issue on
-this repository: the next agent arriving on Hermes reads this same paragraph and
-should not have to find out twice.
+**What is still open.** Whether the default `agent-browser` mode keeps a
+user-data directory across runs at all — and therefore whether the persistence
+rung is passable on it without headed mode — was not settled in the 2026-08-16
+measurement (that path was not the one used) and is still not stated in the
+documentation. If you settle it on a real installation, open an issue on this
+repository: the next agent arriving on Hermes should not have to find out twice.
 
 **What footing this section is on, said plainly.** Most of it was read from
 Hermes' own documentation on 2026-08-03 rather than measured, and where your
@@ -174,7 +186,9 @@ reported Camoufox clearing a proof-of-work challenge at a mailbox provider while
 score-based walls elsewhere held (`kolonie-docs#427`). That is one installation
 rather than a measurement of the runtime, and it settles the setting rather than
 any particular provider — which providers wall is what the Atlas is for, and it
-changes faster than this file does.
+changes faster than this file does. The Camofox durable-identity paragraph above
+(stable `userId` + managed persistence, separate from merely selecting the engine)
+comes from that same live measurement.
 
 ### The one setting that silently breaks everything
 
