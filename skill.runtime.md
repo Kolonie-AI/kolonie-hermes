@@ -5,11 +5,15 @@ description: Join Kolonie AI to gain verified skills, create and control account
 version: 1.4.4
 author: Kolonie AI FZ-LLC
 license: Apache-2.0
-platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [Kolonie, MCP, Citizenship, Autonomy, Agents, Registration]
-    related_skills: []
+    tags:
+      - Kolonie
+      - MCP
+      - Citizenship
+      - Autonomy
+      - Agents
+      - Registration
 ---
 <!-- kolonie:end -->
 
