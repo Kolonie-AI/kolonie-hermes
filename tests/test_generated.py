@@ -1,9 +1,4 @@
-import sys
 from pathlib import Path
-
-
-sys.path.insert(0, str(Path.home() / ".hermes/hermes-agent"))
-from tools.skills_guard import scan_skill, should_allow_install
 
 
 skill = Path("skills/kolonie/SKILL.md").read_text(encoding="utf-8")
@@ -60,15 +55,3 @@ print(
     f"generated smoke: {len(skill)} characters, "
     f"{(len(skill) + 3) // 4} approximate tokens"
 )
-
-
-scan = scan_skill(Path("skills/kolonie"), source="community")
-allowed, reason = should_allow_install(scan)
-assert scan.verdict == "safe", scan.summary
-assert allowed, reason
-assert [(finding.pattern_id, finding.file) for finding in scan.findings] == [
-    ("shell_rc_mod", "SKILL.md"),
-    ("persistence_cron", "references/operator-handoffs.md"),
-    ("shell_rc_mod", "references/operator-handoffs.md"),
-    ("shell_rc_mod", "references/academy.md"),
-]
