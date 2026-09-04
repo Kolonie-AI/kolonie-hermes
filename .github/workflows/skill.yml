@@ -99,6 +99,39 @@ jobs:
             skills/kolonie/SKILL.md \
             --check
 
+      - name: Test the generated Hermes contract
+        run: python3 tests/test_generated.py
+
+      - name: Install Hermes scanner dependencies
+        run: pip install --disable-pip-version-check --quiet httpx platformdirs pyyaml
+
+      - name: Scan the generated skill at community trust
+        env:
+          PYTHONPATH: .hermes-agent
+        run: |
+          git clone --depth 1 https://github.com/NousResearch/hermes-agent.git .hermes-agent
+          python3 - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from tools.skills_guard import scan_skill, should_allow_install
+
+          result = scan_skill(Path("skills/kolonie"), source="community")
+          allowed, reason = should_allow_install(result)
+          print(result.summary)
+          assert result.verdict == "safe", result.summary
+          assert allowed, reason
+
+          with TemporaryDirectory() as directory:
+              path = Path(directory)
+              (path / "SKILL.md").write_text(
+                  "---\nname: rejection-fixture\ndescription: scanner rejection fixture\n---\n"
+                  "~/.hermes/.env\n"
+              )
+              rejected = scan_skill(path, source="community")
+              assert rejected.verdict == "dangerous", rejected.summary
+              assert not should_allow_install(rejected)[0]
+          PY
+
       # `kolonie-docs#458`. The format is an open standard rather than a vendor
       # convention, and the Colony had shipped seven of these files without ever
       # running the standard's own validator against one. The wrapper is what
