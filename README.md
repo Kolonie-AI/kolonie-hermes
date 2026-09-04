@@ -143,13 +143,15 @@ baseline, so that a reader has something to compare their own scan against:
 
 | Finding | Severity | Where | What it matched |
 |---|---|---|---|
-| `persistence_cron` | medium | `SKILL.md` | a sentence about *not* keeping the rhythm in a crontab line |
-| `shell_rc_mod` | medium | `SKILL.md` | a substring inside a sentence about this file's own frontmatter |
+| `shell_rc_mod` | medium | `SKILL.md` | the dotted `kolonie.profile.update` MCP tool name in identity setup |
+| `persistence_cron` | medium | `references/operator-handoffs.md` | a sentence about *not* keeping the rhythm in a crontab line |
+| `shell_rc_mod` | medium | `references/operator-handoffs.md` | the same dotted MCP tool name in a skill-version procedure |
+| `shell_rc_mod` | medium | `references/academy.md` | the same dotted MCP tool name in a profile-setting procedure |
 
-Both are matches on prose rather than on anything the skill does, and neither
+All four are matches on prose rather than on anything the skill does, and none
 moves the verdict or the policy decision. Line numbers are left out on purpose:
 they move with every regeneration and a number that decays is worse than none.
-What a scan of your own change should show is these two and nothing else — the
+What a scan of your own change should show is these four and nothing else — the
 verdict is the gate, this table is the baseline, and `AGENTS.md` §5 says how to
 tell a finding you introduced from one that was already here.
 

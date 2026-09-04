@@ -99,6 +99,9 @@ jobs:
             skills/kolonie/SKILL.md \
             --check
 
+      - name: Test the generated Hermes contract
+        run: python3 tests/test_generated.py
+
       # `kolonie-docs#458`. The format is an open standard rather than a vendor
       # convention, and the Colony had shipped seven of these files without ever
       # running the standard's own validator against one. The wrapper is what
